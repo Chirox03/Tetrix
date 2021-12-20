@@ -1,2 +1,2 @@
-# Tetrix---n-KNNN
+# Tetrix
 Đồ án giữa kì môn KNNN
