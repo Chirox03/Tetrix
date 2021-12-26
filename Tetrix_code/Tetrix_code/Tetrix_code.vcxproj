@@ -144,6 +144,7 @@
   <ItemGroup>
     <ClInclude Include="gamecheck.h" />
     <ClInclude Include="gamecontrol.h" />
+    <ClInclude Include="countdown_gamescreen.h" />
     <ClInclude Include="setup.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

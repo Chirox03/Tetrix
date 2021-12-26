@@ -29,5 +29,8 @@
     <ClInclude Include="gamecheck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="countdown_gamescreen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
