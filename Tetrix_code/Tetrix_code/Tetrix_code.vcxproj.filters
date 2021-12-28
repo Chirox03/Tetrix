@@ -19,18 +19,4 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="setup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gamecontrol.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gamecheck.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="countdown_gamescreen.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
 </Project>
