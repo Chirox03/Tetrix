@@ -187,6 +187,22 @@ int main()
             nLimit = -1;
         }
 
+        //Xử lý
+        //di chuyển phải
+        if (bKey[3] == 1 && nCurrentY >= nLimit)
+        {
+            if (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX + 2, nCurrentY) == 1)
+            {
+                nCurrentX += 2;
+            }
+        }
+        //di chuyển trái
+        if (bKey[1] == 1 && nCurrentY >= nLimit && CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX - 2, nCurrentY) == 1)
+        {
+             nCurrentX -= 2;
+        }
+
+
         if (bForceDown == 1)
         {
             nFrameCount = 0;
