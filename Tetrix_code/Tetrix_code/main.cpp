@@ -53,6 +53,17 @@ bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPo
 
 	return 1;
 }
+
+//allow -> rand
+int random(int nMin, int nMax)
+{
+        random_device rd;
+        mt19937 rng(rd());
+        uniform_int_distribution<int> uni(nMin, nMax);
+ 
+        auto num = uni(rng);
+        return num;
+}
 int main()
 {
 	// Set kích thước cửa sổ console 
