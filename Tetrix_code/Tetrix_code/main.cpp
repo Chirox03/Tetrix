@@ -202,6 +202,18 @@ int main()
              nCurrentX -= 2;
         }
 
+        //Thả khối xuống
+        //Tìm vị trí thấp nhất mà vật có thể rơi xuống và thả
+        if (bKey[2] == 1 && nCurrentY >= nLimit)
+        {
+             int i{};
+             while (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + i) == 1)
+             {
+                 i++;
+             }
+             nCurrentY += i - 1;
+         }
+
 
         if (bForceDown == 1)
         {
