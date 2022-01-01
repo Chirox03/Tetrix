@@ -214,6 +214,19 @@ int main()
              nCurrentY += i - 1;
          }
 
+         //Xoay khối
+         //Mỗi lần ấn W sẽ xoay đúng 1 lần
+         if (bKey[0] == 1 && nCurrentY >= nLimit && bRotateHold == 1 && CheckPiece(pMatrix, nCurrentPiece, (nCurrentRotation + 1) % 4, nCurrentX, nCurrentY) == 1)
+         {
+             nCurrentRotation++;
+             nCurrentRotation %= 4;
+             bRotateHold = 0;
+         }
+         else
+         {
+             bRotateHold = 1;
+         }
+
 
         if (bForceDown == 1)
         {
