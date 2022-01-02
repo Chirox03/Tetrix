@@ -1,4 +1,4 @@
-﻿#include <Windows.h>
+#include <Windows.h>
 #include <conio.h>
 #include <iostream>
 #include <string>
@@ -20,6 +20,7 @@ void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPos
 			{
 				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
 			}
+
 			pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 8 * 16 + nTetromino;
 		}
 	}
@@ -53,20 +54,9 @@ bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPo
 
 	return 1;
 }
-
-//allow -> rand
-int random(int nMin, int nMax)
-{
-        random_device rd;
-        mt19937 rng(rd());
-        uniform_int_distribution<int> uni(nMin, nMax);
- 
-        auto num = uni(rng);
-        return num;
-}
 int main()
 {
-	// Set kích thước cửa sổ console 
+	// Set kích thước cửa sổ console
 	configure();
 
 	// Tạo Console Screen Buffer
@@ -81,7 +71,10 @@ int main()
 		for (int j = 0; j < nScreenHeight; j++)
 		{
 			pBuffer[j * nScreenWidth + i] = L' ';
+            //vẽ caro cho nền
+            if ((i / 2 + i % 2 + j) % 2 == 0)
 			pColor[j * nScreenWidth + i] = 8 * 16 + 9;
+            else pColor[j * nScreenWidth + i] = 7 * 16 + 9;
 
 		}
 	}
@@ -187,47 +180,6 @@ int main()
             nLimit = -1;
         }
 
-        //Xử lý
-        //di chuyển phải
-        if (bKey[3] == 1 && nCurrentY >= nLimit)
-        {
-            if (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX + 2, nCurrentY) == 1)
-            {
-                nCurrentX += 2;
-            }
-        }
-        //di chuyển trái
-        if (bKey[1] == 1 && nCurrentY >= nLimit && CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX - 2, nCurrentY) == 1)
-        {
-             nCurrentX -= 2;
-        }
-
-        //Thả khối xuống
-        //Tìm vị trí thấp nhất mà vật có thể rơi xuống và thả
-        if (bKey[2] == 1 && nCurrentY >= nLimit)
-        {
-             int i{};
-             while (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + i) == 1)
-             {
-                 i++;
-             }
-             nCurrentY += i - 1;
-         }
-
-         //Xoay khối
-         //Mỗi lần ấn W sẽ xoay đúng 1 lần
-         if (bKey[0] == 1 && nCurrentY >= nLimit && bRotateHold == 1 && CheckPiece(pMatrix, nCurrentPiece, (nCurrentRotation + 1) % 4, nCurrentX, nCurrentY) == 1)
-         {
-             nCurrentRotation++;
-             nCurrentRotation %= 4;
-             bRotateHold = 0;
-         }
-         else
-         {
-             bRotateHold = 1;
-         }
-
-
         if (bForceDown == 1)
         {
             nFrameCount = 0;
@@ -250,10 +202,12 @@ int main()
                         for (int j = 0; j < 4; j++)
                         {
                             if (nCurrentY >= 0 && tetromino.at(nCurrentPiece).at(nCurrentRotation).at(j * 8 + i) != L'.')
-                            {
-                                pMatrix[(nCurrentY + j) * nBoardWidth + (nCurrentX + i)] = 2; 
-                                pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece;
-                                    
+                            { //vẽ caro cho nền
+                                pMatrix[(nCurrentY + j) * nBoardWidth + (nCurrentX + i)] = 2;
+                                if (((nCurrentX +i)/2 + (nCurrentX+i)%2 + nCurrentY+j)%2 == 0)
+                                    pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece;
+                                else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 7 * 16 + nCurrentPiece;
+
                             }
                         }
                     }
@@ -307,14 +261,15 @@ int main()
             for (int j = 0; j < 4; j++)
             {
                 if (tetromino.at(nCurrentPiece).at(nCurrentRotation).at(j * 8 + i) != L'.' && nCurrentY + j >= 0)
-                {
-                    
-                    pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece;    
+                { // vẽ ca ro cho nền
+                    if (((nCurrentX +i)/ 2 + (nCurrentX + i) % 2 + (nCurrentY+j)) % 2 == 0)
+                    pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece;
+                    else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 7 * 16 + nCurrentPiece;
                     pBuffer[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = L'▓';
                 }
             }
         }
-  
+
         if (!vLines.empty())
         {
             WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
@@ -325,8 +280,10 @@ int main()
                 for (int i = 1; i < nBoardWidth - 1; i++)
                 {
                     for (int j = vLines.at(l); j > 0; j--)
-                    {
-                        pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] - 16;   
+                    {   //vẽ caro cho nền
+                        if ((i / 2 + i % 2 + j) % 2 == 0)
+                        pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] + 16;
+                        else  pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] - 16;
                         pMatrix[j * nBoardWidth + i] = pMatrix[(j - 1) * nBoardWidth + i];
                     }
                     pMatrix[i] = 0;
