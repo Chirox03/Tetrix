@@ -56,6 +56,7 @@ bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPo
 }
 int main()
 {
+    //
 	// Set kích thước cửa sổ console
 	configure();
 
