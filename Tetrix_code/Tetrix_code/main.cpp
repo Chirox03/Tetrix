@@ -142,7 +142,7 @@ int main()
     while (bGameOver != 1)
     {
         // GAME TIMING
-        Sleep(10);
+        Sleep(75);
         nFrameCount++;
         if (nFrameCount == nFrame)
         {
