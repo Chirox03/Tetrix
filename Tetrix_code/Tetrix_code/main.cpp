@@ -212,6 +212,68 @@ int main()
             bRotateHold = 1;
         }
 
+        //Tạm dừng game
+        if (bKey[4] == 1)
+        {
+            int nSelect = 0;
+
+            //Khi tiếp tục chơi, màu sắc hiển thị sẽ được trả lại như trước khi tạm dừng
+            WORD* pTmpColor = new WORD[nScreenWidth * nScreenHeight];
+ 
+            for (int i = 0; i < nScreenWidth * nScreenHeight; i++)
+            {
+                pTmpColor[i] = pColor[i];
+            }
+ 
+            while (1)
+            {
+                Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 10 * 16 + 11, 2, 8);
+                Text(pBuffer, pTmpColor, L"                  ", 10 * 16 + 11, 2, 9);
+                Text(pBuffer, pTmpColor, L" ════════════════ ", 10 * 16 + 11, 2, 12);
+ 
+ 
+                if (nSelect == 0)
+                {
+                    Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 2, 10);
+                    Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 2, 11);
+ 
+                    if (GetKeyState('S') & 0x8000)
+                    {
+                        nSelect++;
+                    }
+                    else if (GetKeyState(13) & 0x8000)
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 2, 10);
+                    Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 2, 11);
+ 
+                    if (GetKeyState('W') & 0x8000)
+                    {
+                        nSelect--;
+                    }
+                    else if (GetKeyState(13) & 0x8000)
+                    {
+                        return 0;
+                    }
+                }
+ 
+                for (int j = 0; j < nScreenHeight; j++)
+                {
+                    for (int i = 0; i < nScreenWidth; i++)
+                    {
+                        COORD cPos;
+                        cPos.X = i;
+                        cPos.Y = j;
+                        WriteConsoleOutputAttribute(hConsole, &pTmpColor[j * nScreenWidth + i], 1, cPos, &dwBytesWritten);
+                    }
+                }
+                WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
+            }
+        }
 
         if (bForceDown)
         {
