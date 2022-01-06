@@ -2,9 +2,9 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/Tetrix/v16
+/.vs/Tetrix/v17
 /.vs
-/Tetrix_code/.vs/Tetrix_code/v16
+/Tetrix_code/.vs/Tetrix_code/v17
 *.log
 **/logs
 **/logs/debug.log
