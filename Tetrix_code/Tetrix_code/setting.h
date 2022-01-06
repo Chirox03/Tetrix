@@ -1,4 +1,4 @@
-﻿
+
 // Khai báo các hằng số
 const vector<vector<wstring>> tetromino = {
 	// I
@@ -71,7 +71,7 @@ void configure()
 	system("color 89");
 
 	HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-
+     
 	CONSOLE_SCREEN_BUFFER_INFOEX csbiex;
 	csbiex.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
 	GetConsoleScreenBufferInfoEx(hConsoleOutput, &csbiex);
@@ -96,5 +96,27 @@ void configure()
 		SetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
 }
 
-// Vẽ khung cho score, line, next
+// countdown
+const vector<wstring> wsThree = {
+            L"──▄",
+            L" ─█",
+            L"──▀"
+};
+ 
+const vector<wstring> wsTwo = {
+    L"──▄",
+    L"▄─▀",
+    L"▀──"
+};
+const vector<wstring> wsOne = {
+    L"─▄ ",
+    L" █ ",
+    L" ▀ "
+};
+const vector<wstring> wsReady = {
+    L"▄──┐ ▄── ┌──▄ ▄──┐ ▄ ┬",
+    L"█─┬┘ █─  ├──█ █ ┌┘ ▀▄┘",
+    L"▀ └─ ▀── ┴  ▀ ▀─┘   ▀ "
+};
+const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady };
 
