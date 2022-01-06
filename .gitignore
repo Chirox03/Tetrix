@@ -20,3 +20,9 @@ logs/debug.log
 *.idb
 *.vcxpoj
 *.enc
+Tetrix_code/Debug/Tetrix_code.exe
+Tetrix_code/Debug/Tetrix_code.pdb
+Tetrix_code/Tetrix_code/Debug/Tetrix_code.ilk
+Tetrix_code/Tetrix_code/Debug/Tetrix_code.tlog/CL.read.1.tlog
+Tetrix_code/Tetrix_code/Debug/Tetrix_code.tlog/link.read.1.tlog
+Tetrix_code/Tetrix_code/Debug/main.obj
