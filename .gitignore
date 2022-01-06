@@ -9,6 +9,7 @@
 **/logs
 **/logs/debug.log
 /debug.log
+/debug
 logs/
 logs/debug.log
 *.exe
