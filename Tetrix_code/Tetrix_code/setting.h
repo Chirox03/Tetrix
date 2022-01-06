@@ -57,17 +57,17 @@ const vector<vector<wstring>> tetromino = {
 		L"........XXXX......XXXX.........."
 	}
 };
-const int nScreenWidth = 22;
+const int nScreenWidth = 39;
 const int nScreenHeight = 21;
 
-const int nBoardWidth = 22;
+const int nBoardWidth = 39;
 const int nBoardHeight = 21;
 
 const wstring detail = L" █▓░╚╝║═";
 void configure()
 {
 	// Set kích thước cửa sổ console
-	system("MODE 22, 22");
+	system("MODE 39, 22");
 	system("color 89");
 
 	HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -82,8 +82,8 @@ void configure()
         csbiex.ColorTable[4] = RGB(0, 0, 249);
         csbiex.ColorTable[5] = RGB(134, 0, 125);
         csbiex.ColorTable[6] = RGB(248, 139, 194);
-        csbiex.ColorTable[7] = RGB(242, 242, 242);
-        csbiex.ColorTable[8] = RGB(0, 188, 212);
+        csbiex.ColorTable[8] = RGB(204, 255, 255);
+        csbiex.ColorTable[7] = RGB(255, 255, 255);
         csbiex.ColorTable[9] = RGB(20, 20, 20);
 		SetConsoleScreenBufferInfoEx(hConsoleOutput, &csbiex);
 
