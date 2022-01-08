@@ -54,7 +54,29 @@ bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPo
 
 	return 1;
 }
+void Frame(wchar_t*& pBuffer, wstring wsCaption, int nWidth, int nHeight, int nPosX, int nPosY)
+{
 
+    pBuffer[nPosY * nScreenWidth + nPosX] = L'╔';
+    pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nPosX] = L'╚';
+    pBuffer[nPosY * nScreenWidth + nWidth + nPosX - 1] = L'╗';
+    pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nWidth + nPosX - 1] = L'╝';
+    for (int j = nPosY +1; j < nHeight + nPosY -1; j++)
+    {
+        pBuffer[j * nScreenWidth + nPosX] = L'║';
+        pBuffer[j * nScreenWidth + nWidth + nPosX - 1] = L'║';
+    }
+    for (int i = nPosX + 1; i < nWidth + nPosX - 1; i++)
+    {
+       pBuffer[nPosY * nScreenWidth + i] = L'═';
+       pBuffer[(nPosY + nHeight -1) * nScreenWidth + i] = L'═';
+    }  
+    int CapIndex = nPosY * nScreenWidth + (nPosX + (nWidth - wsCaption.length())/2 );
+    for (int i = 0; i < wsCaption.length(); i++, CapIndex++)
+    {
+        pBuffer[CapIndex] = wsCaption.at(i);
+    }
+    }
 int main()
 {
     configure();
@@ -116,11 +138,11 @@ int main()
             {
                 if (i == 3)
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 9, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 15, 9 + j);
                 }
                 else
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 18, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 25, 9 + j);
                 }
 
             }
@@ -301,15 +323,15 @@ int main()
 
                 while (1)
                 {
-                    Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 10 * 16 + 11, 2, 8);
-                    Text(pBuffer, pTmpColor, L"                  ", 10 * 16 + 11, 2, 9);
-                    Text(pBuffer, pTmpColor, L" ════════════════ ", 10 * 16 + 11, 2, 12);
+                    Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 10 * 16 + 11, 6, 8);
+                    Text(pBuffer, pTmpColor, L"                  ", 10 * 16 + 11, 6, 9);
+                    Text(pBuffer, pTmpColor, L" ════════════════ ", 10 * 16 + 11, 6, 12);
 
 
                     if (nSelect == 0)
                     {
-                        Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 2, 10);
-                        Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 2, 11);
+                        Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 6, 10);
+                        Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 6, 11);
 
                         if (GetKeyState('S') & 0x8000)
                         {
@@ -322,8 +344,8 @@ int main()
                     }
                     else
                     {
-                        Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 2, 10);
-                        Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 2, 11);
+                        Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 6, 10);
+                        Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 6, 11);
 
                         if (GetKeyState('W') & 0x8000)
                         {
@@ -476,7 +498,12 @@ int main()
                 nLinePosX--;
                 nLineComp *= 10;
             }
-           
+        Frame(pBuffer, L"[ SCORE ]", 19, 3, nBoardWidth +1, 1);
+        Frame(pBuffer, L"[ LINE ]", 19, 3, nBoardWidth +1, 4);
+        Frame(pBuffer, L"[ NEXT ]", 19, 8, nBoardWidth +1, 7);
+            Block(pBuffer, pColor, nNextPiece, nBoardWidth + 6, 9);
+            Text(pBuffer, pColor, to_wstring(nScore), 8 * 16 + 9, nScorePosX +3, 2);
+            Text(pBuffer, pColor, to_wstring(nLine), 8 * 16 + 9, nLinePosX +3, 5);
             // Destroy the lines
             if (!vLines.empty())
             {
