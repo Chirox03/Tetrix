@@ -1,4 +1,4 @@
-﻿#include <Windows.h>
+#include <Windows.h>
 #include <conio.h>
 #include <iostream>
 #include <string>
@@ -7,7 +7,7 @@ using namespace std;
 #include "Random.h"
 #include "SFML/Audio.hpp"
 #include "setting.h"
-void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPosY)
+void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nNextPiece_color ,int nPosX, int nPosY)
 {
 	for (int j = 0; j < 4; j++)
 	{
@@ -15,13 +15,13 @@ void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPos
 		{
 			if (tetromino.at(nTetromino).at(0).at(j * 8 + i) != L'.')
 			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L'▓';
+				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = detail[1];
 			}
 			else
 			{
 				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
 			}
-			pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 8 * 16 + nTetromino;
+			pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 11 * 16 + nNextPiece_color;
 		}
 	}
 }
@@ -153,7 +153,7 @@ int main()
             for (int j = 0; j < nScreenHeight; j++)
             {
                 pBuffer[j * nScreenWidth + i] = L' ';
-                pColor[j * nScreenWidth + i] = 8 * 16 + 9;
+                pColor[j * nScreenWidth + i] = 11 * 16 + 9;
             }
         }
 
@@ -164,11 +164,11 @@ int main()
             {
                 if (i == 3)
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 15, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 4, 15, 9 + j);
                 }
                 else
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 25, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 4, 25, 9 + j);
                 }
 
             }
@@ -198,8 +198,8 @@ int main()
             {
                 pBuffer[j * nScreenWidth + i] = L' ';
                 if ((i / 2 + i % 2 + j) % 2 == 0)
-                    pColor[j * nScreenWidth + i] = 8 * 16 + 9;
-                else pColor[j * nScreenWidth + i] = 7 * 16 + 9;
+                    pColor[j * nScreenWidth + i] = 11 * 16 + 9;
+                else pColor[j * nScreenWidth + i] = 12 * 16 + 9;
             }
         }
         // Game data
@@ -243,9 +243,11 @@ int main()
 
         int nCurrentPiece = random(0, 6);
         int nNextPiece = random(0, 6);
+        int nNextPiece_color = random(0, 10);
         int nCurrentRotation = 0;
         int nCurrentX = nBoardWidth / 2 - 4;
         int nCurrentY = 0;
+        int nCurrentPiece_color = 0;
 
         int nFrame = 20;
         int nFrameCount = 0;
@@ -264,7 +266,6 @@ int main()
         int nLine = 0;
         int nLinePosX = 40;
         int nLineComp = 10;
-        int nCurrentPiece_color =0;
         vector<int> vLines;
         bool visible[nScreenWidth * nScreenHeight + 10];
         // Game loop
@@ -304,8 +305,8 @@ int main()
                     if (tetromino.at(nCurrentPiece).at(nCurrentRotation).at(j * 8 + i) != L'.' && nCurrentY + j >= 0)
                     {
                         if (((nCurrentX + i) / 2 + (nCurrentX + i) % 2 + (nCurrentY + j)) % 2 == 0)
-                            pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece_color;
-                        else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 7 * 16 + nCurrentPiece_color;
+                            pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 11 * 16 + nCurrentPiece_color;
+                        else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 12 * 16 + nCurrentPiece_color;
                         pBuffer[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = L'▓';
                     }
                 }
@@ -451,8 +452,8 @@ int main()
                                 {
                                     pMatrix[(nCurrentY + j) * nBoardWidth + (nCurrentX + i)] = 1;
                                     if (((nCurrentX + i) / 2 + (nCurrentX + i) % 2 + (nCurrentY + j)) % 2 == 0)
-                                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece_color;
-                                    else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 7 * 16 + nCurrentPiece_color;
+                                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] =11 * 16 + nCurrentPiece_color;
+                                    else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 12 * 16 + nCurrentPiece_color;
                                 }
                             }
                         }
@@ -498,7 +499,8 @@ int main()
                         nCurrentY = -4;
                         nCurrentRotation = 0;
                         nCurrentPiece = nNextPiece;
-                        nCurrentPiece_color = random(0, 6);
+                        nCurrentPiece_color = nNextPiece_color;
+                        nNextPiece_color = random(0, 10);
                         nNextPiece = random(0, 6);
                     }
                 }
@@ -522,7 +524,7 @@ int main()
                 {
                     if (tetromino.at(nCurrentPiece).at(nCurrentRotation).at(j * 8 + i) != L'.' && nCurrentY + j >= 0)
                     {
-                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece_color;
+                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 11 * 16 + nCurrentPiece_color;
                         pBuffer[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = L'▓';
                     }                   
                 }
@@ -545,9 +547,9 @@ int main()
         Frame(pBuffer, L"[ SCORE ]", 19, 3, nBoardWidth +1, 1);
         Frame(pBuffer, L"[ LINE ]", 19, 3, nBoardWidth +1, 4);
         Frame(pBuffer, L"[ NEXT ]", 19, 8, nBoardWidth +1, 7);
-            Block(pBuffer, pColor, nNextPiece, nBoardWidth + 6, 9);
-            Text(pBuffer, pColor, to_wstring(nScore), 8 * 16 + 9, nScorePosX, 2);
-            Text(pBuffer, pColor, to_wstring(nLine), 8 * 16 + 9, nLinePosX , 5);
+            Block(pBuffer, pColor, nNextPiece, nNextPiece_color ,nBoardWidth + 6, 9);
+            Text(pBuffer, pColor, to_wstring(nScore), 11 * 16 + 9, nScorePosX, 2);
+            Text(pBuffer, pColor, to_wstring(nLine), 11 * 16 + 9, nLinePosX , 5);
             // Destroy the lines
             if (!vLines.empty())
             {
