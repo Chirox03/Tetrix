@@ -364,16 +364,16 @@ int main()
 
                 while (1)
                 {
-                    Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 10 * 16 + 11, 6, 8);
-                    Text(pBuffer, pTmpColor, L"                  ", 10 * 16 + 11, 6, 9);
-                    Text(pBuffer, pTmpColor, L" ════════════════ ", 10 * 16 + 11, 6, 12);
+                    Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 13 * 16 + 11, 6, 8);
+                    Text(pBuffer, pTmpColor, L"                  ", 13 * 16 + 11, 6, 9);
+                    Text(pBuffer, pTmpColor, L" ════════════════ ", 13 * 16 + 11, 6, 12);
 
 
                     if (nSelect == 0)
                     {
                         //rotateSFX.play();
-                        Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 6, 10);
-                        Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 6, 11);
+                        Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 7, 6, 10);
+                        Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 13, 6, 11);
                         if (GetKeyState('S') & 0x8000)
                         {
                             rotateSFX.play();
@@ -388,8 +388,8 @@ int main()
                     else
                     {
                         //rotateSFX.play();
-                        Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 6, 10);
-                        Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 6, 11);
+                        Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 13, 6, 10);
+                        Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 7, 6, 11);
 
                         if (GetKeyState('W') & 0x8000)
                         {
@@ -635,8 +635,8 @@ int main()
 
             if (nSelect == 0)
             {
-                Text(pBuffer, pColor, L">> Play Again <<", 10 * 16 + 4, 17, 17);
-                Text(pBuffer, pColor, L"      Quit      ", 10 * 16 + 11, 17, 18);
+                Text(pBuffer, pColor, L">> Play Again <<", 10 * 16 + 13, 17, 17);
+                Text(pBuffer, pColor, L"      Quit      ", 10 * 16 + 7, 17, 18);
 
                 if (GetKeyState('S') & 0x8000)
                 {
@@ -651,8 +651,8 @@ int main()
             }
             else
             {
-                Text(pBuffer, pColor, L"   Play Again   ", 10 * 16 + 11, 17, 17);
-                Text(pBuffer, pColor, L">>    Quit    <<", 10 * 16 + 6, 17, 18);
+                Text(pBuffer, pColor, L"   Play Again   ", 10 * 16 + 7, 17, 17);
+                Text(pBuffer, pColor, L">>    Quit    <<", 10 * 16 + 13, 17, 18);
 
                 if (GetKeyState('W') & 0x8000)
                 {
