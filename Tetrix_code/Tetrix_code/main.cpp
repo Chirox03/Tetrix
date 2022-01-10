@@ -4,9 +4,8 @@
 #include <string>
 #include <vector>
 using namespace std;
-#include "Random.h"
-#include "SFML/Audio.hpp"
 #include "setting.h"
+#include "Random.h"
 void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPosY)
 {
 	for (int j = 0; j < 4; j++)
@@ -89,32 +88,7 @@ int main()
     // Create screen buffer
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
-    sf::Music countdown;
-    if (!countdown.openFromFile("countdown.wav"))
-        cout << "Error"; // error
-    sf::Music themesong;
-    if (!themesong.openFromFile("Tetris.wav"))
-        cout << "Error"; // error
-    sf::SoundBuffer buffer_1;
-    if (!buffer_1.loadFromFile("rotate.wav"))
-        cout << "Error";
-    sf::SoundBuffer buffer_2;
-    if (!buffer_2.loadFromFile("Gameover.wav"))
-        cout << "Error";
-    sf::SoundBuffer buffer_3;
-    if (!buffer_3.loadFromFile("fall.wav"))
-        cout << "Error";
-    sf::SoundBuffer buffer_4;
-    if (!buffer_4.loadFromFile("breaking.wav")) cout << "Error";
-    sf::Sound rotateSFX;
-    sf::Sound GameOverSFX;
-    sf::Sound FallSFX;
-    sf::Sound BreakSFX;
-    rotateSFX.setBuffer(buffer_1);
-    GameOverSFX.setBuffer(buffer_2);
-    FallSFX.setBuffer(buffer_3);
-    BreakSFX.setBuffer(buffer_4);
-    countdown.play();
+
     while (1)
     {
         SetConsoleActiveScreenBuffer(hConsole);
@@ -186,11 +160,7 @@ int main()
             WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
             Sleep(1000);
         }
-        countdown.stop();
 
-    
-    themesong.play();
-    // load something into the sound buffer...
         // Create game screen
         for (int i = 0; i < nScreenWidth; i++)
         {
@@ -223,7 +193,6 @@ int main()
                         pMatrix[j * nBoardWidth + i] = 7;
                     }
                 }
-                
                 else
                 {
                     if (i == 0 || i == nBoardWidth - 1)
@@ -283,10 +252,7 @@ int main()
             {
                 bKey[i] = 0;
                 if ((GetKeyState(key.at(i)) & 0x8000) != 0)
-                {
-
                     bKey[i] = 1;
-                }
             }
 
             // GAME LOGIC
@@ -313,7 +279,6 @@ int main()
             // Handling input
             if (bKey[3] == 1 && nCurrentY >= nLimit)
             {
-                rotateSFX.play();
                 if (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX + 2, nCurrentY) == 1)
                 {
                     nCurrentX += 2;
@@ -322,14 +287,11 @@ int main()
 
             if (bKey[1] == 1 && nCurrentY >= nLimit && CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX - 2, nCurrentY) == 1)
             {
-                rotateSFX.play();
                 nCurrentX -= 2;
-                
             }
 
             if (bKey[2] == 1 && nCurrentY >= nLimit)
             {
-                FallSFX.play();
                 int i{};
                 while (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + i) == 1)
                 {
@@ -337,10 +299,9 @@ int main()
                 }
                 nCurrentY += i - 1;
             }
-            
+
             if (bKey[0] == 1 && nCurrentY >= nLimit && bRotateHold == 1 && CheckPiece(pMatrix, nCurrentPiece, (nCurrentRotation + 1) % 4, nCurrentX, nCurrentY) == 1)
             {
-                rotateSFX.play();
                 nCurrentRotation++;
                 nCurrentRotation %= 4;
                 bRotateHold = 0;
@@ -369,34 +330,29 @@ int main()
 
                     if (nSelect == 0)
                     {
-                        //rotateSFX.play();
                         Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 6, 10);
                         Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 6, 11);
+
                         if (GetKeyState('S') & 0x8000)
                         {
-                            rotateSFX.play();
                             nSelect++;
                         }
                         else if (GetKeyState(13) & 0x8000)
                         {
-                            rotateSFX.play();
                             break;
                         }
                     }
                     else
                     {
-                        //rotateSFX.play();
                         Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 6, 10);
                         Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 6, 11);
 
                         if (GetKeyState('W') & 0x8000)
                         {
-                            rotateSFX.play();
                             nSelect--;
                         }
                         else if (GetKeyState(13) & 0x8000)
                         {
-                            rotateSFX.play();
                             return 0;
                         }
                     }
@@ -571,7 +527,6 @@ int main()
                         pMatrix[i] = 0;
                     }
                 }
-                BreakSFX.play();
                 vLines.clear();
             }
 
@@ -589,8 +544,6 @@ int main()
         }
 
         // Game over
-        themesong.stop();
-        GameOverSFX.play();
         const vector<wstring> wsGameOver = {
             L"▄──┐┌──▄ ┌─▄─▄ ▄──",
             L"█ ─┐├──█ │ ▀ █ █─ ",
@@ -637,12 +590,10 @@ int main()
 
                 if (GetKeyState('S') & 0x8000)
                 {
-                    rotateSFX.play();
                     nSelect++;
                 }
                 if (GetKeyState(13) & 0x8000)
                 {
-                    rotateSFX.play();
                     break;
                 }
             }
@@ -653,12 +604,10 @@ int main()
 
                 if (GetKeyState('W') & 0x8000)
                 {
-                    rotateSFX.play();
                     nSelect--;
                 }
                 if (GetKeyState(13) & 0x8000)
                 {
-                    rotateSFX.play();
                     return 0;
                 }
             }
