@@ -1,4 +1,3 @@
-﻿
 
 // Khai báo các hằng số
 const vector<vector<wstring>> tetromino = {
@@ -70,6 +69,7 @@ void configure()
 	// Set kích thước cửa sổ console
 	system("MODE 52, 22");
 	system("color 89");
+
 	HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	CONSOLE_SCREEN_BUFFER_INFOEX csbiex;
@@ -95,85 +95,6 @@ void configure()
 
 		SetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
 }
-// Vẽ khung cho score, line, next
-void Frame(wchar_t*& pBuffer, wstring wsCaption, int nWidth, int nHeight, int nPosX, int nPosY)
-{
 
-    pBuffer[nPosY * nScreenWidth + nPosX] = L'╔';
-    pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nPosX] = L'╚';
-    pBuffer[nPosY * nScreenWidth + nWidth + nPosX - 1] = L'╗';
-    pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nWidth + nPosX - 1] = L'╝';
-    for (int j = nPosY +1; j < nHeight + nPosY -1; j++)
-    {
-        pBuffer[j * nScreenWidth + nPosX] = L'║';
-        pBuffer[j * nScreenWidth + nWidth + nPosX - 1] = L'║';
-    }
-    for (int i = nPosX + 1; i < nWidth + nPosX - 1; i++)
-    {
-       pBuffer[nPosY * nScreenWidth + i] = L'═';
-       pBuffer[(nPosY + nHeight -1) * nScreenWidth + i] = L'═';
-    }  
-    int CapIndex = nPosY * nScreenWidth + (nPosX + (nWidth - wsCaption.length())/2 );
-    for (int i = 0; i < wsCaption.length(); i++, CapIndex++)
-    {
-        pBuffer[CapIndex] = wsCaption.at(i);
-    }
- }
-void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPosY)
-{
-	for (int j = 0; j < 4; j++)
-	{
-		for (int i = 0; i < 8; i++)
-		{
-			if (tetromino.at(nTetromino).at(0).at(j * 8 + i) != L'.')
-			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L'▓';
-			}
-			else
-			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
-			}
-			pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 8 * 16 + nTetromino;
-		}
-	}
-}
-void Text(wchar_t*& pBuffer, WORD*& pColor, wstring wsContent, WORD wColor, int nPosX, int nPosY)
-{
-    for (int i = 0; i < wsContent.length(); i++, nPosX++)
-    {
-        pBuffer[nPosY * nScreenWidth + nPosX] = wsContent.at(i);
-        pColor[nPosY * nScreenWidth + nPosX] = wColor;
-    }
-}
-const vector<wstring> wsThree = {
-            L"──▄",
-            L" ─█",
-            L"──▀"
-        };
- 
-        const vector<wstring> wsTwo = {
-            L"──▄",
-            L"▄─▀",
-            L"▀──"
-        };
- 
-        const vector<wstring> wsOne = {
-            L"─▄ ",
-            L" █ ",
-            L" ▀ "
-        };
- 
-        const vector<wstring> wsReady = {
-            L"▄──┐ ▄── ┌──▄ ▄──┐ ▄ ┬",
-            L"█─┬┘ █─  ├──█ █ ┌┘ ▀▄┘",
-            L"▀ └─ ▀── ┴  ▀ ▀─┘   ▀ "
-        };
-        const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady };
-        const vector<wstring> wsGameOver = {
-            L"▄──┐┌──▄ ┌─▄─▄ ▄──",
-            L"█ ─┐├──█ │ ▀ █ █─ ",
-            L"▀──┘┴  ▀ ┴   ▀ ▀──",
-            L"▄──┐ ▄  ┬ ▄── ▄──┐",
-            L"█  │ █ ┌┘ █─  █─┬┘",
-            L"▀──┘ ▀─┘  ▀── ▀ └─"
-        }; 
+// Vẽ khung cho score, line, next
+
