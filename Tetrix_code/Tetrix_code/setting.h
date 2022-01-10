@@ -146,3 +146,35 @@ void Text(wchar_t*& pBuffer, WORD*& pColor, wstring wsContent, WORD wColor, int 
         pColor[nPosY * nScreenWidth + nPosX] = wColor;
     }
 }
+const vector<wstring> wsThree = {
+            L"──▄",
+            L" ─█",
+            L"──▀"
+        };
+ 
+        const vector<wstring> wsTwo = {
+            L"──▄",
+            L"▄─▀",
+            L"▀──"
+        };
+ 
+        const vector<wstring> wsOne = {
+            L"─▄ ",
+            L" █ ",
+            L" ▀ "
+        };
+ 
+        const vector<wstring> wsReady = {
+            L"▄──┐ ▄── ┌──▄ ▄──┐ ▄ ┬",
+            L"█─┬┘ █─  ├──█ █ ┌┘ ▀▄┘",
+            L"▀ └─ ▀── ┴  ▀ ▀─┘   ▀ "
+        };
+        const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady };
+        const vector<wstring> wsGameOver = {
+            L"▄──┐┌──▄ ┌─▄─▄ ▄──",
+            L"█ ─┐├──█ │ ▀ █ █─ ",
+            L"▀──┘┴  ▀ ┴   ▀ ▀──",
+            L"▄──┐ ▄  ┬ ▄── ▄──┐",
+            L"█  │ █ ┌┘ █─  █─┬┘",
+            L"▀──┘ ▀─┘  ▀── ▀ └─"
+        }; 
