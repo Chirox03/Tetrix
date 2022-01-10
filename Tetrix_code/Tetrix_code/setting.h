@@ -1,4 +1,4 @@
-﻿
+
 // Khai báo các hằng số
 const vector<vector<wstring>> tetromino = {
 	// I
@@ -82,9 +82,13 @@ void configure()
         csbiex.ColorTable[4] = RGB(0, 0, 249);
         csbiex.ColorTable[5] = RGB(134, 0, 125);
         csbiex.ColorTable[6] = RGB(248, 139, 194);
-        csbiex.ColorTable[8] = RGB(204, 255, 255);
-        csbiex.ColorTable[7] = RGB(255, 255, 255);
-        csbiex.ColorTable[9] = RGB(20, 20, 20);
+		csbiex.ColorTable[7] = RGB(255, 153, 51);
+		csbiex.ColorTable[8] = RGB(51, 153, 255);
+		csbiex.ColorTable[9] = RGB(255, 51, 153);
+		csbiex.ColorTable[10] = RGB(255,255, 51);
+        csbiex.ColorTable[12] = RGB(204, 255, 255);
+        csbiex.ColorTable[11] = RGB(255, 255, 255);
+        csbiex.ColorTable[13] = RGB(20, 20, 20);
 		SetConsoleScreenBufferInfoEx(hConsoleOutput, &csbiex);
 
 		CONSOLE_FONT_INFOEX cfiex;
