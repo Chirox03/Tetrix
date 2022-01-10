@@ -1,0 +1,25 @@
+[33m7e85029[m[33m ([m[1;36mHEAD -> [m[1;32mWip-feature-hien-thi-ine-next-score[m[33m)[m HEAD@{0}: checkout: moving from Master to Wip-feature-hien-thi-ine-next-score
+[33m0f4b54e[m[33m ([m[1;31morigin/Master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mMaster[m[33m)[m HEAD@{1}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33mfe5e888[m HEAD@{2}: checkout: moving from Wip-feature-hien-thi-ine-next-score to Master
+[33m7e85029[m[33m ([m[1;36mHEAD -> [m[1;32mWip-feature-hien-thi-ine-next-score[m[33m)[m HEAD@{3}: reset: moving to 7e8502922708201368b950149e024e3e35b9f58c
+[33m7e85029[m[33m ([m[1;36mHEAD -> [m[1;32mWip-feature-hien-thi-ine-next-score[m[33m)[m HEAD@{4}: checkout: moving from Master to Wip-feature-hien-thi-ine-next-score
+[33mfe5e888[m HEAD@{5}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33m2e7f096[m HEAD@{6}: checkout: moving from Wip-feature-hien-thi-ine-next-score to Master
+[33m7e85029[m[33m ([m[1;36mHEAD -> [m[1;32mWip-feature-hien-thi-ine-next-score[m[33m)[m HEAD@{7}: checkout: moving from Master to Wip-feature-hien-thi-ine-next-score
+[33m2e7f096[m HEAD@{8}: pull --progress --no-edit --no-stat --recurse-submodules=no origin: Fast-forward
+[33m5787091[m HEAD@{9}: checkout: moving from Wip-feature-hien-thi-ine-next-score to Master
+[33m7e85029[m[33m ([m[1;36mHEAD -> [m[1;32mWip-feature-hien-thi-ine-next-score[m[33m)[m HEAD@{10}: revert: Revert "Finish"
+[33mca4ccfd[m HEAD@{11}: reset: moving to ca4ccfd
+[33mc882f20[m HEAD@{12}: revert: Revert "1"
+[33med66a53[m HEAD@{13}: commit (amend): 1
+[33m97f1f02[m HEAD@{14}: reset: moving to 97f1f023c0dfb8753c0b5a75e91420d0f70defce
+[33m97f1f02[m HEAD@{15}: reset: moving to 97f1f023c0dfb8753c0b5a75e91420d0f70defce
+[33mca4ccfd[m HEAD@{16}: reset: moving to ca4ccfd0faf7b30535b910f8e0fecd4f9eddd07b
+[33mca4ccfd[m HEAD@{17}: reset: moving to ca4ccfd0faf7b30535b910f8e0fecd4f9eddd07b
+[33mca4ccfd[m HEAD@{18}: commit: Finish
+[33m97f1f02[m HEAD@{19}: commit: Gần xong, còn game over chưa chỉnh xong, mai lại chỉnh tiếp :(((
+[33m5787091[m HEAD@{20}: checkout: moving from Master to Wip-feature-hien-thi-ine-next-score
+[33m5787091[m HEAD@{21}: checkout: moving from Wip-feature-sound to Master
+[33mbc8fee2[m[33m ([m[1;31morigin/Wip-feature-sound[m[33m)[m HEAD@{22}: commit: Test
+[33m5787091[m HEAD@{23}: checkout: moving from Master to Wip-feature-sound
+[33m5787091[m HEAD@{24}: clone: from https://github.com/Chirox03/Tetrix.git

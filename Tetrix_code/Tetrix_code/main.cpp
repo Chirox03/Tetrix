@@ -227,11 +227,11 @@ int main()
         int nPieceCount = 0;
 
         int nScore = 0;
-        int nScorePosX = 37;
+        int nScorePosX = 40;
         int nScoreComp = 10;
 
         int nLine = 0;
-        int nLinePosX = 37;
+        int nLinePosX = 40;
         int nLineComp = 10;
         int nCurrentPiece_color =0;
         vector<int> vLines;
@@ -240,7 +240,7 @@ int main()
         while (1)
         {
             // GAME TIMING
-            Sleep(40);
+            //Sleep(40);
             nFrameCount++;
             if (nFrameCount == nFrame)
                 bForceDown = 1;
@@ -502,8 +502,8 @@ int main()
         Frame(pBuffer, L"[ LINE ]", 19, 3, nBoardWidth +1, 4);
         Frame(pBuffer, L"[ NEXT ]", 19, 8, nBoardWidth +1, 7);
             Block(pBuffer, pColor, nNextPiece, nBoardWidth + 6, 9);
-            Text(pBuffer, pColor, to_wstring(nScore), 8 * 16 + 9, nScorePosX +3, 2);
-            Text(pBuffer, pColor, to_wstring(nLine), 8 * 16 + 9, nLinePosX +3, 5);
+            Text(pBuffer, pColor, to_wstring(nScore), 8 * 16 + 9, nScorePosX, 2);
+            Text(pBuffer, pColor, to_wstring(nLine), 8 * 16 + 9, nLinePosX , 5);
             // Destroy the lines
             if (!vLines.empty())
             {
@@ -516,28 +516,12 @@ int main()
                     {
                         for (int j = vLines.at(l); j > 0; j--)
                         {
-                            if (j % 2 == 0)
-                            {
-                                if (i % 4 == 1 || i % 4 == 2)
-                                {
+                            if ((i / 2 +  i % 2 +  j) % 2 == 0)
                                     pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] - 16;
-                                }
                                 else
-                                {
+
                                     pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] + 16;
-                                }
-                            }
-                            else
-                            {
-                                if (i % 4 == 1 || i % 4 == 2)
-                                {
-                                    pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] + 16;
-                                }
-                                else
-                                {
-                                    pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] - 16;
-                                }
-                            }
+                               
                             pMatrix[j * nBoardWidth + i] = pMatrix[(j - 1) * nBoardWidth + i];
                         }
                         pMatrix[i] = 0;
@@ -583,13 +567,13 @@ int main()
         {
             for (int i = 0; i < wsGameOver.size(); i++)
             {
-                Text(pBuffer, pColor, wsGameOver.at(i), 10 * 16 + 1, 10, 3 + i);
+                Text(pBuffer, pColor, wsGameOver.at(i), 10 * 16 + 1, 17, 3 + i);
             }
 
-            Text(pBuffer, pColor, L"════ SCORE ════", 10 * 16 + 3, 12, 11);
-            Text(pBuffer, pColor, L"═══════════════", 10 * 16 + 3, 12, 13);
+            Text(pBuffer, pColor, L"════ SCORE ════", 10 * 16 + 3, 18, 11);
+            Text(pBuffer, pColor, L"═══════════════", 10 * 16 + 3, 18, 13);
 
-            int nScorePosX = 19;
+            int nScorePosX = 17+8;
             int nScoreComp = 100;
             while (nScore >= nScoreComp)
             {
@@ -601,8 +585,8 @@ int main()
 
             if (nSelect == 0)
             {
-                Text(pBuffer, pColor, L">> Play Again <<", 10 * 16 + 4, 11, 17);
-                Text(pBuffer, pColor, L"      Quit      ", 10 * 16 + 11, 11, 18);
+                Text(pBuffer, pColor, L">> Play Again <<", 10 * 16 + 4, 17, 17);
+                Text(pBuffer, pColor, L"      Quit      ", 10 * 16 + 11, 17, 18);
 
                 if (GetKeyState('S') & 0x8000)
                 {
@@ -615,8 +599,8 @@ int main()
             }
             else
             {
-                Text(pBuffer, pColor, L"   Play Again   ", 10 * 16 + 11, 11, 17);
-                Text(pBuffer, pColor, L">>    Quit    <<", 10 * 16 + 6, 11, 18);
+                Text(pBuffer, pColor, L"   Play Again   ", 10 * 16 + 11, 17, 17);
+                Text(pBuffer, pColor, L">>    Quit    <<", 10 * 16 + 6, 17, 18);
 
                 if (GetKeyState('W') & 0x8000)
                 {
