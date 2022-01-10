@@ -1,4 +1,5 @@
 ﻿
+
 // Khai báo các hằng số
 const vector<vector<wstring>> tetromino = {
 	// I
@@ -57,17 +58,17 @@ const vector<vector<wstring>> tetromino = {
 		L"........XXXX......XXXX.........."
 	}
 };
-const int nScreenWidth = 39;
+const int nScreenWidth = 52;
 const int nScreenHeight = 21;
 
-const int nBoardWidth = 39;
+const int nBoardWidth = 30;
 const int nBoardHeight = 21;
 
 const wstring detail = L" █▓░╚╝║═";
 void configure()
 {
 	// Set kích thước cửa sổ console
-	system("MODE 39, 22");
+	system("MODE 52, 22");
 	system("color 89");
 
 	HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -95,7 +96,6 @@ void configure()
 
 		SetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
 }
-
 // Vẽ khung cho score, line, next
 void Frame(wchar_t*& pBuffer, wstring wsCaption, int nWidth, int nHeight, int nPosX, int nPosY)
 {
