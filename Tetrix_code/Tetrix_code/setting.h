@@ -75,25 +75,29 @@ void configure()
 	CONSOLE_SCREEN_BUFFER_INFOEX csbiex;
 	csbiex.cbSize = sizeof(CONSOLE_SCREEN_BUFFER_INFOEX);
 	GetConsoleScreenBufferInfoEx(hConsoleOutput, &csbiex);
-        csbiex.ColorTable[0] = RGB(255, 0, 24);
-        csbiex.ColorTable[1] = RGB(255, 165, 44);
-        csbiex.ColorTable[2] = RGB(255, 255, 65);
-        csbiex.ColorTable[3] = RGB(0, 128, 24);
-        csbiex.ColorTable[4] = RGB(0, 0, 249);
-        csbiex.ColorTable[5] = RGB(134, 0, 125);
-        csbiex.ColorTable[6] = RGB(248, 139, 194);
-        csbiex.ColorTable[8] = RGB(204, 255, 255);
-        csbiex.ColorTable[7] = RGB(255, 255, 255);
-        csbiex.ColorTable[9] = RGB(20, 20, 20);
-		SetConsoleScreenBufferInfoEx(hConsoleOutput, &csbiex);
+	csbiex.ColorTable[0] = RGB(255, 0, 24);
+	csbiex.ColorTable[1] = RGB(255, 165, 44);
+	csbiex.ColorTable[2] = RGB(255, 255, 65);
+	csbiex.ColorTable[3] = RGB(0, 128, 24);
+	csbiex.ColorTable[4] = RGB(0, 0, 249);
+	csbiex.ColorTable[5] = RGB(134, 0, 125);
+	csbiex.ColorTable[6] = RGB(248, 139, 194);
+	csbiex.ColorTable[7] = RGB(255, 153, 51);
+	csbiex.ColorTable[8] = RGB(51, 153, 255);
+	csbiex.ColorTable[9] = RGB(255, 51, 153);
+	csbiex.ColorTable[10] = RGB(255, 255, 51);
+	csbiex.ColorTable[12] = RGB(204, 255, 255);
+	csbiex.ColorTable[11] = RGB(255, 255, 255);
+	csbiex.ColorTable[13] = RGB(20, 20, 20);
+	SetConsoleScreenBufferInfoEx(hConsoleOutput, &csbiex);
 
-		CONSOLE_FONT_INFOEX cfiex;
-		cfiex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
+	CONSOLE_FONT_INFOEX cfiex;
+	cfiex.cbSize = sizeof(CONSOLE_FONT_INFOEX);
 
-		GetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
-		cfiex.dwFontSize.Y = 36;
+	GetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
+	cfiex.dwFontSize.Y = 36;
 
-		SetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
+	SetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
 }
 //SFX
 

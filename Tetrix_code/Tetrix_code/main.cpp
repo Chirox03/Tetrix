@@ -7,23 +7,23 @@ using namespace std;
 #include "Random.h"
 #include "SFML/Audio.hpp"
 #include "setting.h"
-void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPosY)
+void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nNextPiece_color, int nPosX, int nPosY)
 {
-	for (int j = 0; j < 4; j++)
-	{
-		for (int i = 0; i < 8; i++)
-		{
-			if (tetromino.at(nTetromino).at(0).at(j * 8 + i) != L'.')
-			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L'▓';
-			}
-			else
-			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
-			}
-			pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 8 * 16 + nTetromino;
-		}
-	}
+    for (int j = 0; j < 4; j++)
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            if (tetromino.at(nTetromino).at(0).at(j * 8 + i) != L'.')
+            {
+                pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = detail[1];
+            }
+            else
+            {
+                pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
+            }
+            pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 11 * 16 + nNextPiece_color;
+        }
+    }
 }
 
 void Text(wchar_t*& pBuffer, WORD*& pColor, wstring wsContent, WORD wColor, int nPosX, int nPosY)
@@ -36,24 +36,24 @@ void Text(wchar_t*& pBuffer, WORD*& pColor, wstring wsContent, WORD wColor, int 
 }
 bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPosY)
 {
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			if (nPosX + i >= 0 && nPosX + i < nBoardWidth)
-			{
-				if (nPosY + j >= 0 && nPosY + j < nBoardHeight)
-				{
-					if (tetromino.at(nTetromino).at(nRotation).at(j * 8 + i) != L'.' && pMatrix[(nPosY + j) * nBoardWidth + (nPosX + i)] != 0 )
-					{
-						return 0;
-					}
-				}
-			}
-		}
-	}
+    for (int i = 0; i < 8; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            if (nPosX + i >= 0 && nPosX + i < nBoardWidth)
+            {
+                if (nPosY + j >= 0 && nPosY + j < nBoardHeight)
+                {
+                    if (tetromino.at(nTetromino).at(nRotation).at(j * 8 + i) != L'.' && pMatrix[(nPosY + j) * nBoardWidth + (nPosX + i)] != 0)
+                    {
+                        return 0;
+                    }
+                }
+            }
+        }
+    }
 
-	return 1;
+    return 1;
 }
 void Frame(wchar_t*& pBuffer, wstring wsCaption, int nWidth, int nHeight, int nPosX, int nPosY)
 {
@@ -62,22 +62,22 @@ void Frame(wchar_t*& pBuffer, wstring wsCaption, int nWidth, int nHeight, int nP
     pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nPosX] = L'╚';
     pBuffer[nPosY * nScreenWidth + nWidth + nPosX - 1] = L'╗';
     pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nWidth + nPosX - 1] = L'╝';
-    for (int j = nPosY +1; j < nHeight + nPosY -1; j++)
+    for (int j = nPosY + 1; j < nHeight + nPosY - 1; j++)
     {
         pBuffer[j * nScreenWidth + nPosX] = L'║';
         pBuffer[j * nScreenWidth + nWidth + nPosX - 1] = L'║';
     }
     for (int i = nPosX + 1; i < nWidth + nPosX - 1; i++)
     {
-       pBuffer[nPosY * nScreenWidth + i] = L'═';
-       pBuffer[(nPosY + nHeight -1) * nScreenWidth + i] = L'═';
-    }  
-    int CapIndex = nPosY * nScreenWidth + (nPosX + (nWidth - wsCaption.length())/2 );
+        pBuffer[nPosY * nScreenWidth + i] = L'═';
+        pBuffer[(nPosY + nHeight - 1) * nScreenWidth + i] = L'═';
+    }
+    int CapIndex = nPosY * nScreenWidth + (nPosX + (nWidth - wsCaption.length()) / 2);
     for (int i = 0; i < wsCaption.length(); i++, CapIndex++)
     {
         pBuffer[CapIndex] = wsCaption.at(i);
     }
-    }
+}
 int main()
 {
     configure();
@@ -153,7 +153,7 @@ int main()
             for (int j = 0; j < nScreenHeight; j++)
             {
                 pBuffer[j * nScreenWidth + i] = L' ';
-                pColor[j * nScreenWidth + i] = 8 * 16 + 9;
+                pColor[j * nScreenWidth + i] = 11 * 16 + 9;
             }
         }
 
@@ -164,11 +164,11 @@ int main()
             {
                 if (i == 3)
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 15, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 4, 15, 9 + j);
                 }
                 else
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 25, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 4, 25, 9 + j);
                 }
 
             }
@@ -188,18 +188,18 @@ int main()
         }
         countdown.stop();
 
-    
-    themesong.play();
-    // load something into the sound buffer...
-        // Create game screen
+
+        themesong.play();
+        // load something into the sound buffer...
+            // Create game screen
         for (int i = 0; i < nScreenWidth; i++)
         {
             for (int j = 0; j < nScreenHeight; j++)
             {
                 pBuffer[j * nScreenWidth + i] = L' ';
                 if ((i / 2 + i % 2 + j) % 2 == 0)
-                    pColor[j * nScreenWidth + i] = 8 * 16 + 9;
-                else pColor[j * nScreenWidth + i] = 7 * 16 + 9;
+                    pColor[j * nScreenWidth + i] = 11 * 16 + 9;
+                else pColor[j * nScreenWidth + i] = 12 * 16 + 9;
             }
         }
         // Game data
@@ -223,7 +223,7 @@ int main()
                         pMatrix[j * nBoardWidth + i] = 7;
                     }
                 }
-                
+
                 else
                 {
                     if (i == 0 || i == nBoardWidth - 1)
@@ -243,9 +243,11 @@ int main()
 
         int nCurrentPiece = random(0, 6);
         int nNextPiece = random(0, 6);
+        int nNextPiece_color = random(0, 10);
         int nCurrentRotation = 0;
         int nCurrentX = nBoardWidth / 2 - 4;
         int nCurrentY = 0;
+        int nCurrentPiece_color = 0;
 
         int nFrame = 20;
         int nFrameCount = 0;
@@ -264,7 +266,6 @@ int main()
         int nLine = 0;
         int nLinePosX = 40;
         int nLineComp = 10;
-        int nCurrentPiece_color =0;
         vector<int> vLines;
         bool visible[nScreenWidth * nScreenHeight + 10];
         // Game loop
@@ -304,8 +305,8 @@ int main()
                     if (tetromino.at(nCurrentPiece).at(nCurrentRotation).at(j * 8 + i) != L'.' && nCurrentY + j >= 0)
                     {
                         if (((nCurrentX + i) / 2 + (nCurrentX + i) % 2 + (nCurrentY + j)) % 2 == 0)
-                            pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece_color;
-                        else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 7 * 16 + nCurrentPiece_color;
+                            pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 11 * 16 + nCurrentPiece_color;
+                        else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 12 * 16 + nCurrentPiece_color;
                         pBuffer[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = L'▓';
                     }
                 }
@@ -324,7 +325,7 @@ int main()
             {
                 rotateSFX.play();
                 nCurrentX -= 2;
-                
+
             }
 
             if (bKey[2] == 1 && nCurrentY >= nLimit)
@@ -337,7 +338,7 @@ int main()
                 }
                 nCurrentY += i - 1;
             }
-            
+
             if (bKey[0] == 1 && nCurrentY >= nLimit && bRotateHold == 1 && CheckPiece(pMatrix, nCurrentPiece, (nCurrentRotation + 1) % 4, nCurrentX, nCurrentY) == 1)
             {
                 rotateSFX.play();
@@ -451,8 +452,8 @@ int main()
                                 {
                                     pMatrix[(nCurrentY + j) * nBoardWidth + (nCurrentX + i)] = 1;
                                     if (((nCurrentX + i) / 2 + (nCurrentX + i) % 2 + (nCurrentY + j)) % 2 == 0)
-                                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece_color;
-                                    else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 7 * 16 + nCurrentPiece_color;
+                                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 11 * 16 + nCurrentPiece_color;
+                                    else pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 12 * 16 + nCurrentPiece_color;
                                 }
                             }
                         }
@@ -498,7 +499,8 @@ int main()
                         nCurrentY = -4;
                         nCurrentRotation = 0;
                         nCurrentPiece = nNextPiece;
-                        nCurrentPiece_color = random(0, 6);
+                        nCurrentPiece_color = nNextPiece_color;
+                        nNextPiece_color = random(0, 10);
                         nNextPiece = random(0, 6);
                     }
                 }
@@ -515,16 +517,16 @@ int main()
                 }
             }
 
-            
+
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 4; j++)
                 {
                     if (tetromino.at(nCurrentPiece).at(nCurrentRotation).at(j * 8 + i) != L'.' && nCurrentY + j >= 0)
                     {
-                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 8 * 16 + nCurrentPiece_color;
+                        pColor[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = 11 * 16 + nCurrentPiece_color;
                         pBuffer[(nCurrentY + j) * nScreenWidth + (nCurrentX + i)] = L'▓';
-                    }                   
+                    }
                 }
             }
 
@@ -535,19 +537,19 @@ int main()
                 nScorePosX--;
                 nScoreComp *= 10;
             }
-          
+
             // Line
             if (nLine >= nLineComp)
             {
                 nLinePosX--;
                 nLineComp *= 10;
             }
-        Frame(pBuffer, L"[ SCORE ]", 19, 3, nBoardWidth +1, 1);
-        Frame(pBuffer, L"[ LINE ]", 19, 3, nBoardWidth +1, 4);
-        Frame(pBuffer, L"[ NEXT ]", 19, 8, nBoardWidth +1, 7);
-            Block(pBuffer, pColor, nNextPiece, nBoardWidth + 6, 9);
-            Text(pBuffer, pColor, to_wstring(nScore), 8 * 16 + 9, nScorePosX, 2);
-            Text(pBuffer, pColor, to_wstring(nLine), 8 * 16 + 9, nLinePosX , 5);
+            Frame(pBuffer, L"[ SCORE ]", 19, 3, nBoardWidth + 1, 1);
+            Frame(pBuffer, L"[ LINE ]", 19, 3, nBoardWidth + 1, 4);
+            Frame(pBuffer, L"[ NEXT ]", 19, 8, nBoardWidth + 1, 7);
+            Block(pBuffer, pColor, nNextPiece, nNextPiece_color, nBoardWidth + 6, 9);
+            Text(pBuffer, pColor, to_wstring(nScore), 11 * 16 + 9, nScorePosX, 2);
+            Text(pBuffer, pColor, to_wstring(nLine), 11 * 16 + 9, nLinePosX, 5);
             // Destroy the lines
             if (!vLines.empty())
             {
@@ -560,12 +562,12 @@ int main()
                     {
                         for (int j = vLines.at(l); j > 0; j--)
                         {
-                            if ((i / 2 +  i % 2 +  j) % 2 == 0)
-                                    pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] - 16;
-                                else
+                            if ((i / 2 + i % 2 + j) % 2 == 0)
+                                pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] - 16;
+                            else
 
-                                    pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] + 16;
-                               
+                                pColor[j * nScreenWidth + i] = pColor[(j - 1) * nScreenWidth + i] + 16;
+
                             pMatrix[j * nBoardWidth + i] = pMatrix[(j - 1) * nBoardWidth + i];
                         }
                         pMatrix[i] = 0;
@@ -620,7 +622,7 @@ int main()
             Text(pBuffer, pColor, L"════ SCORE ════", 10 * 16 + 3, 18, 11);
             Text(pBuffer, pColor, L"═══════════════", 10 * 16 + 3, 18, 13);
 
-            int nScorePosX = 17+8;
+            int nScorePosX = 17 + 8;
             int nScoreComp = 100;
             while (nScore >= nScoreComp)
             {
