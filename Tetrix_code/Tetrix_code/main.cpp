@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 using namespace std;
-#include "graphic.h"
+#include "setting.h"
 #include "Random.h"
 bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPosY)
 {
