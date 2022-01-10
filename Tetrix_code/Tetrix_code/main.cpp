@@ -240,7 +240,7 @@ int main()
         while (1)
         {
             // GAME TIMING
-            //Sleep(40);
+            Sleep(30);
             nFrameCount++;
             if (nFrameCount == nFrame)
                 bForceDown = 1;
