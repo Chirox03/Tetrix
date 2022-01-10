@@ -70,7 +70,6 @@ void configure()
 	// Set kích thước cửa sổ console
 	system("MODE 52, 22");
 	system("color 89");
-
 	HANDLE hConsoleOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	CONSOLE_SCREEN_BUFFER_INFOEX csbiex;
