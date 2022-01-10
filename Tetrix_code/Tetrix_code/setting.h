@@ -95,6 +95,6 @@ void configure()
 
 		SetCurrentConsoleFontEx(hConsoleOutput, 0, &cfiex);
 }
+//SFX
 
-// Vẽ khung cho score, line, next
 
