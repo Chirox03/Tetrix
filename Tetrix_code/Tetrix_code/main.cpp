@@ -1,38 +1,11 @@
-﻿#include <Windows.h>
+#include <Windows.h>
 #include <conio.h>
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
-#include "setting.h"
+#include "graphic.h"
 #include "Random.h"
-void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nPosX, int nPosY)
-{
-	for (int j = 0; j < 4; j++)
-	{
-		for (int i = 0; i < 8; i++)
-		{
-			if (tetromino.at(nTetromino).at(0).at(j * 8 + i) != L'.')
-			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L'▓';
-			}
-			else
-			{
-				pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
-			}
-			pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 8 * 16 + nTetromino;
-		}
-	}
-}
-
-void Text(wchar_t*& pBuffer, WORD*& pColor, wstring wsContent, WORD wColor, int nPosX, int nPosY)
-{
-    for (int i = 0; i < wsContent.length(); i++, nPosX++)
-    {
-        pBuffer[nPosY * nScreenWidth + nPosX] = wsContent.at(i);
-        pColor[nPosY * nScreenWidth + nPosX] = wColor;
-    }
-}
 bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPosY)
 {
 	for (int i = 0; i < 8; i++)
@@ -72,33 +45,6 @@ int main()
         SetConsoleActiveScreenBuffer(hConsole);
 
         // GET STARTED
-
-        const vector<wstring> wsThree = {
-            L"──▄",
-            L" ─█",
-            L"──▀"
-        };
-
-        const vector<wstring> wsTwo = {
-            L"──▄",
-            L"▄─▀",
-            L"▀──"
-        };
-
-        const vector<wstring> wsOne = {
-            L"─▄ ",
-            L" █ ",
-            L" ▀ "
-        };
-
-        const vector<wstring> wsReady = {
-            L"▄──┐ ▄── ┌──▄ ▄──┐ ▄ ┬",
-            L"█─┬┘ █─  ├──█ █ ┌┘ ▀▄┘",
-            L"▀ └─ ▀── ┴  ▀ ▀─┘   ▀ "
-        };
-
-        const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady };
-
         // Clear screen
         for (int i = 0; i < nScreenWidth; i++)
         {
@@ -116,11 +62,11 @@ int main()
             {
                 if (i == 3)
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 9, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 15, 9 + j);
                 }
                 else
                 {
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 18, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 8 * 16 + 4, 25, 9 + j);
                 }
 
             }
@@ -205,11 +151,11 @@ int main()
         int nPieceCount = 0;
 
         int nScore = 0;
-        int nScorePosX = 37;
+        int nScorePosX = 40;
         int nScoreComp = 10;
 
         int nLine = 0;
-        int nLinePosX = 37;
+        int nLinePosX = 40;
         int nLineComp = 10;
         int nCurrentPiece_color =0;
         vector<int> vLines;
@@ -218,7 +164,7 @@ int main()
         while (1)
         {
             // GAME TIMING
-            Sleep(40);
+            //Sleep(2);
             nFrameCount++;
             if (nFrameCount == nFrame)
                 bForceDown = 1;
@@ -301,15 +247,15 @@ int main()
 
                 while (1)
                 {
-                    Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 10 * 16 + 11, 2, 8);
-                    Text(pBuffer, pTmpColor, L"                  ", 10 * 16 + 11, 2, 9);
-                    Text(pBuffer, pTmpColor, L" ════════════════ ", 10 * 16 + 11, 2, 12);
+                    Text(pBuffer, pTmpColor, L" ═════ PAUSE ════ ", 10 * 16 + 11, 6, 8);
+                    Text(pBuffer, pTmpColor, L"                  ", 10 * 16 + 11, 6, 9);
+                    Text(pBuffer, pTmpColor, L" ════════════════ ", 10 * 16 + 11, 6, 12);
 
 
                     if (nSelect == 0)
                     {
-                        Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 2, 10);
-                        Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 2, 11);
+                        Text(pBuffer, pTmpColor, L" >>  Continue  << ", 10 * 16 + 4, 6, 10);
+                        Text(pBuffer, pTmpColor, L"       Quit       ", 10 * 16 + 11, 6, 11);
 
                         if (GetKeyState('S') & 0x8000)
                         {
@@ -322,8 +268,8 @@ int main()
                     }
                     else
                     {
-                        Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 2, 10);
-                        Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 2, 11);
+                        Text(pBuffer, pTmpColor, L"     Continue     ", 10 * 16 + 11, 6, 10);
+                        Text(pBuffer, pTmpColor, L" >>    Quit    << ", 10 * 16 + 6, 6, 11);
 
                         if (GetKeyState('W') & 0x8000)
                         {
@@ -476,12 +422,17 @@ int main()
                 nLinePosX--;
                 nLineComp *= 10;
             }
-           
+        Frame(pBuffer, L"[ SCORE ]", 19, 3, nBoardWidth +1, 1);
+        Frame(pBuffer, L"[ LINE ]", 19, 3, nBoardWidth +1, 4);
+        Frame(pBuffer, L"[ NEXT ]", 19, 8, nBoardWidth +1, 7);
+            Block(pBuffer, pColor, nNextPiece, nBoardWidth + 6, 9);
+            Text(pBuffer, pColor, to_wstring(nScore), 8 * 16 + 9, nScorePosX, 2);
+            Text(pBuffer, pColor, to_wstring(nLine), 8 * 16 + 9, nLinePosX, 5);
             // Destroy the lines
             if (!vLines.empty())
             {
                 WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
-                Sleep(400);
+                Sleep(1);
 
                 for (int l = 0; l < vLines.size(); l++)
                 {
@@ -533,14 +484,7 @@ int main()
         }
 
         // Game over
-        const vector<wstring> wsGameOver = {
-            L"▄──┐┌──▄ ┌─▄─▄ ▄──",
-            L"█ ─┐├──█ │ ▀ █ █─ ",
-            L"▀──┘┴  ▀ ┴   ▀ ▀──",
-            L"▄──┐ ▄  ┬ ▄── ▄──┐",
-            L"█  │ █ ┌┘ █─  █─┬┘",
-            L"▀──┘ ▀─┘  ▀── ▀ └─"
-        };
+       
 
         for (int i = 0; i < nScreenWidth; i++)
         {
@@ -556,11 +500,11 @@ int main()
         {
             for (int i = 0; i < wsGameOver.size(); i++)
             {
-                Text(pBuffer, pColor, wsGameOver.at(i), 10 * 16 + 1, 10, 3 + i);
+                Text(pBuffer, pColor, wsGameOver.at(i), 10 * 16 + 1, 17, 3 + i);
             }
 
-            Text(pBuffer, pColor, L"════ SCORE ════", 10 * 16 + 3, 12, 11);
-            Text(pBuffer, pColor, L"═══════════════", 10 * 16 + 3, 12, 13);
+            Text(pBuffer, pColor, L"════ SCORE ════", 10 * 16 + 3, 18, 11);
+            Text(pBuffer, pColor, L"═══════════════", 10 * 16 + 3, 18, 13);
 
             int nScorePosX = 19;
             int nScoreComp = 100;
@@ -570,12 +514,12 @@ int main()
                 nScoreComp *= 100;
             }
 
-            Text(pBuffer, pColor, to_wstring(nScore), 10 * 16 + 3, nScorePosX, 12);
+            Text(pBuffer, pColor, to_wstring(nScore), 10 * 16 + 3, nScorePosX + 6, 12);
 
             if (nSelect == 0)
             {
-                Text(pBuffer, pColor, L">> Play Again <<", 10 * 16 + 4, 11, 17);
-                Text(pBuffer, pColor, L"      Quit      ", 10 * 16 + 11, 11, 18);
+                Text(pBuffer, pColor, L">> Play Again <<", 10 * 16 + 4, 18, 17);
+                Text(pBuffer, pColor, L"      Quit      ", 10 * 16 + 11, 18, 18);
 
                 if (GetKeyState('S') & 0x8000)
                 {
@@ -588,8 +532,8 @@ int main()
             }
             else
             {
-                Text(pBuffer, pColor, L"   Play Again   ", 10 * 16 + 11, 11, 17);
-                Text(pBuffer, pColor, L">>    Quit    <<", 10 * 16 + 6, 11, 18);
+                Text(pBuffer, pColor, L"   Play Again   ", 10 * 16 + 11, 18, 17);
+                Text(pBuffer, pColor, L">>    Quit    <<", 10 * 16 + 6, 18, 18);
 
                 if (GetKeyState('W') & 0x8000)
                 {
