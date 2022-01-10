@@ -189,6 +189,7 @@ int main()
         countdown.stop();
 
 
+        themesong.setLoop(true);
         themesong.play();
         // load something into the sound buffer...
             // Create game screen
