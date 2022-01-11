@@ -88,10 +88,10 @@ int main()
         {
             for (int j = 0; j < wsCountDown.at(i).size(); j++)
             {
-                if (i == 3)
+                if (i >= 3)
                 {
                     // Nếu là chữ ready thì lùi lại 1 tí cho nó cân 
-                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 4, 15, 9 + j);
+                    Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 7, 15, 9 + j);
                 }
                 else
                 {
@@ -163,12 +163,12 @@ int main()
                 }
             }
         }
-
+        // Khởi tạo các biến 
         const vector<char> key = { 'W', 'A', 'S', 'D', 27 };
         bool bKey[5];
 
-        int nCurrentPiece = random(0, 6);
-        int nNextPiece = random(0, 6);
+        int nCurrentPiece = random(0, 8);
+        int nNextPiece = random(0, 8);
         int nNextPiece_color = random(0, 10);
         int nCurrentRotation = 0;
         int nCurrentX = nBoardWidth / 2 - 4;
@@ -426,7 +426,7 @@ int main()
                         nCurrentPiece = nNextPiece;
                         nCurrentPiece_color = nNextPiece_color;
                         nNextPiece_color = random(0, 10);
-                        nNextPiece = random(0, 6);
+                        nNextPiece = random(0, 8);
                     }
                 }
             }
