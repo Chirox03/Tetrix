@@ -7,6 +7,7 @@ using namespace std;
 #include "Random.h"
 #include "SFML/Audio.hpp"
 #include "setting.h"
+/@@ test thử có bị lỗi nữa không
 void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nNextPiece_color, int nPosX, int nPosY)
 {
     for (int j = 0; j < 4; j++)
