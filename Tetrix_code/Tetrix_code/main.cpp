@@ -28,7 +28,7 @@ bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPo
 
     return 1;
 }
-
+//check thử có bị lỗi ko 
 int main()
 {
     configure();
