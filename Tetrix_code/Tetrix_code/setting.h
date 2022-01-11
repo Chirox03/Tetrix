@@ -55,7 +55,23 @@ const vector<vector<wstring>> tetromino = {
 		L"..........XXXX......XXXX........",
 		L"............XX....XXXX....XX....",
 		L"........XXXX......XXXX.........."
+	},
+	//+
+	{
+		L"....XX....XXXXXX....XX..........",
+		L"....XX....XXXXXX....XX..........",
+		L"....XX....XXXXXX....XX..........",
+		L"....XX....XXXXXX....XX..........",
+    },
+	//U
+	{
+		L"..XX..XX..XX..XX..XXXXXX........",
+		L"..XXXXXX..XX......XXXXXX........",
+		L"..XXXXXX..XX..XX..XX..XX........",
+		L"..XXXXXX......XX..XXXXXX........"
 	}
+
+
 };
 const int nScreenWidth = 52;
 const int nScreenHeight = 21;
@@ -122,7 +138,12 @@ const vector<wstring> wsReady = {
 	L"█─┬┘ █─  ├──█ █ ┌┘ ▀▄┘",
 	L"▀ └─ ▀── ┴  ▀ ▀─┘   ▀ "
 };
-const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady };
+const vector<wstring> wsGo = {
+	L"   ▄──┐ ▄──▄  ▄ ▄ ▄   ",
+	L"   █ -▄ █  █  █ █ █   ",
+	L"   ▀--▀ ▀──▀  ▄ ▄ ▄   "
+};
+const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady, wsGo};
 const vector<wstring> wsGameOver = {
 			L"▄──┐┌──▄ ┌─▄─▄ ▄──",
 			L"█ ─┐├──█ │ ▀ █ █─ ",
