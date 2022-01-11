@@ -7,33 +7,6 @@ using namespace std;
 #include "Random.h"
 #include "SFML/Audio.hpp"
 #include "setting.h"
-void Block(wchar_t*& pBuffer, WORD*& pColor, int nTetromino, int nNextPiece_color, int nPosX, int nPosY)
-{
-    for (int j = 0; j < 4; j++)
-    {
-        for (int i = 0; i < 8; i++)
-        {
-            if (tetromino.at(nTetromino).at(0).at(j * 8 + i) != L'.')
-            {
-                pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = detail[1];
-            }
-            else
-            {
-                pBuffer[(nPosY + j) * nScreenWidth + (nPosX + i)] = L' ';
-            }
-            pColor[(nPosY + j) * nScreenWidth + (nPosX + i)] = 11 * 16 + nNextPiece_color;
-        }
-    }
-}
-
-void Text(wchar_t*& pBuffer, WORD*& pColor, wstring wsContent, WORD wColor, int nPosX, int nPosY)
-{
-    for (int i = 0; i < wsContent.length(); i++, nPosX++)
-    {
-        pBuffer[nPosY * nScreenWidth + nPosX] = wsContent.at(i);
-        pColor[nPosY * nScreenWidth + nPosX] = wColor;
-    }
-}
 bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPosY)
 {
     for (int i = 0; i < 8; i++)
@@ -55,29 +28,7 @@ bool CheckPiece(int*& pMatrix, int nTetromino, int nRotation, int nPosX, int nPo
 
     return 1;
 }
-void Frame(wchar_t*& pBuffer, wstring wsCaption, int nWidth, int nHeight, int nPosX, int nPosY)
-{
 
-    pBuffer[nPosY * nScreenWidth + nPosX] = L'╔';
-    pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nPosX] = L'╚';
-    pBuffer[nPosY * nScreenWidth + nWidth + nPosX - 1] = L'╗';
-    pBuffer[(nHeight + nPosY - 1) * nScreenWidth + nWidth + nPosX - 1] = L'╝';
-    for (int j = nPosY + 1; j < nHeight + nPosY - 1; j++)
-    {
-        pBuffer[j * nScreenWidth + nPosX] = L'║';
-        pBuffer[j * nScreenWidth + nWidth + nPosX - 1] = L'║';
-    }
-    for (int i = nPosX + 1; i < nWidth + nPosX - 1; i++)
-    {
-        pBuffer[nPosY * nScreenWidth + i] = L'═';
-        pBuffer[(nPosY + nHeight - 1) * nScreenWidth + i] = L'═';
-    }
-    int CapIndex = nPosY * nScreenWidth + (nPosX + (nWidth - wsCaption.length()) / 2);
-    for (int i = 0; i < wsCaption.length(); i++, CapIndex++)
-    {
-        pBuffer[CapIndex] = wsCaption.at(i);
-    }
-}
 int main()
 {
     configure();
@@ -89,6 +40,7 @@ int main()
     // Create screen buffer
     HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
     DWORD dwBytesWritten = 0;
+    // Load music and sound
     sf::Music countdown;
     if (!countdown.openFromFile("countdown.wav"))
         cout << "Error"; // error
@@ -115,38 +67,12 @@ int main()
     FallSFX.setBuffer(buffer_3);
     BreakSFX.setBuffer(buffer_4);
     countdown.play();
+
     while (1)
     {
         SetConsoleActiveScreenBuffer(hConsole);
 
         // GET STARTED
-
-        const vector<wstring> wsThree = {
-            L"──▄",
-            L" ─█",
-            L"──▀"
-        };
-
-        const vector<wstring> wsTwo = {
-            L"──▄",
-            L"▄─▀",
-            L"▀──"
-        };
-
-        const vector<wstring> wsOne = {
-            L"─▄ ",
-            L" █ ",
-            L" ▀ "
-        };
-
-        const vector<wstring> wsReady = {
-            L"▄──┐ ▄── ┌──▄ ▄──┐ ▄ ┬",
-            L"█─┬┘ █─  ├──█ █ ┌┘ ▀▄┘",
-            L"▀ └─ ▀── ┴  ▀ ▀─┘   ▀ "
-        };
-
-        const vector<vector<wstring>> wsCountDown = { wsThree, wsTwo, wsOne, wsReady };
-
         // Clear screen
         for (int i = 0; i < nScreenWidth; i++)
         {
@@ -164,6 +90,7 @@ int main()
             {
                 if (i == 3)
                 {
+                    // Nếu là chữ ready thì lùi lại 1 tí cho nó cân 
                     Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 4, 15, 9 + j);
                 }
                 else
@@ -172,7 +99,7 @@ int main()
                 }
 
             }
-
+            // Xuất buffer ra console
             for (int j = 0; j < nScreenHeight; j++)
             {
                 for (int i = 0; i < nScreenWidth; i++)
@@ -187,12 +114,10 @@ int main()
             Sleep(1000);
         }
         countdown.stop();
-
-
         themesong.setLoop(true);
         themesong.play();
-        // load something into the sound buffer...
             // Create game screen
+        // Tạo nền caro
         for (int i = 0; i < nScreenWidth; i++)
         {
             for (int j = 0; j < nScreenHeight; j++)
@@ -248,7 +173,7 @@ int main()
         int nCurrentRotation = 0;
         int nCurrentX = nBoardWidth / 2 - 4;
         int nCurrentY = 0;
-        int nCurrentPiece_color = 0;
+        int nCurrentPiece_color = random(0, 10);
 
         int nFrame = 20;
         int nFrameCount = 0;
@@ -273,7 +198,6 @@ int main()
         while (1)
         {
             // GAME TIMING
-            Sleep(30);
             nFrameCount++;
             if (nFrameCount == nFrame)
                 bForceDown = 1;
@@ -594,15 +518,6 @@ int main()
         // Game over
         themesong.stop();
         GameOverSFX.play();
-        const vector<wstring> wsGameOver = {
-            L"▄──┐┌──▄ ┌─▄─▄ ▄──",
-            L"█ ─┐├──█ │ ▀ █ █─ ",
-            L"▀──┘┴  ▀ ┴   ▀ ▀──",
-            L"▄──┐ ▄  ┬ ▄── ▄──┐",
-            L"█  │ █ ┌┘ █─  █─┬┘",
-            L"▀──┘ ▀─┘  ▀── ▀ └─"
-        };
-
         for (int i = 0; i < nScreenWidth; i++)
         {
             for (int j = 0; j < nScreenHeight; j++)
