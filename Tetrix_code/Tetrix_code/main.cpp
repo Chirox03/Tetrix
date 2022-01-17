@@ -70,7 +70,7 @@ int main()
 
     while (1)
     {
-        SetConsoleActiveScreenBuffer(hConsole);
+        SetConsoleActiveScreenBuffer(hConsole);//active the screen buffer
 
         // GET STARTED
         // Clear screen
@@ -90,7 +90,7 @@ int main()
             {
                 if (i >= 3)
                 {
-                    // Nếu là chữ ready thì lùi lại 1 tí cho nó cân 
+                    // Nếu là chữ ready và go thì lùi lại 1 tí cho nó cân 
                     Text(pBuffer, pColor, wsCountDown.at(i).at(j), 11 * 16 + 7, 15, 9 + j);
                 }
                 else
@@ -100,16 +100,16 @@ int main()
 
             }
             // Xuất buffer ra console
-            for (int j = 0; j < nScreenHeight; j++)
+            /*for (int j = 0; j < nScreenHeight; j++)
             {
                 for (int i = 0; i < nScreenWidth; i++)
                 {
                     COORD cPos;
                     cPos.X = i;
                     cPos.Y = j;
-                    WriteConsoleOutputAttribute(hConsole, &pColor[j * nScreenWidth + i], 1, cPos, &dwBytesWritten);
                 }
-            }
+            }*/
+            WriteConsoleOutputAttribute(hConsole, pColor, nScreenWidth * nScreenHeight, {0,0}, &dwBytesWritten);
             WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
             Sleep(1000);
         }
@@ -164,39 +164,41 @@ int main()
             }
         }
         // Khởi tạo các biến 
+        //Mảng chứa các phím sử dụng trong game
         const vector<char> key = { 'W', 'A', 'S', 'D', 27 };
         bool bKey[5];
-
+        // Các biến thể hiện trang thái của khối hiện tại
         int nCurrentPiece = random(0, 8);
         int nNextPiece = random(0, 8);
         int nNextPiece_color = random(0, 10);
+        int nCurrentPiece_color = random(0, 10);
         int nCurrentRotation = 0;
         int nCurrentX = nBoardWidth / 2 - 4;
         int nCurrentY = 0;
-        int nCurrentPiece_color = random(0, 10);
-
+        // Biến đếm frame, 1 game tick gồm nFrame ( sau này dùng để tăng độ khó)
         int nFrame = 20;
         int nFrameCount = 0;
-
+        //Các biến bool 
         bool bForceDown = 0;
-
         bool bRotateHold = 1;
-
+        //Các biến tăng độ khó
         int nLevelLimit = 2;
-        int nPieceCount = 0;
-
+        int nPieceCount = 0;// Số mảnh đã đáp xuống
+        // Các biến đếm điểm
         int nScore = 0;
         int nScorePosX = 40;
         int nScoreComp = 10;
-
+        //Đếm số dòng
         int nLine = 0;
         int nLinePosX = 40;
         int nLineComp = 10;
+        //Vector kiểm tra sự xóa dòng
         vector<int> vLines;
-        bool visible[nScreenWidth * nScreenHeight + 10];
+        
         // Game loop
         while (1)
         {
+            Sleep(40);
             // GAME TIMING
             nFrameCount++;
             if (nFrameCount == nFrame)
@@ -209,10 +211,7 @@ int main()
             {
                 bKey[i] = 0;
                 if ((GetKeyState(key.at(i)) & 0x8000) != 0)
-                {
-
                     bKey[i] = 1;
-                }
             }
 
             // GAME LOGIC
@@ -223,6 +222,7 @@ int main()
             {
                 nLimit = -1;
             }
+            //Tetromino
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 4; j++)
@@ -237,6 +237,7 @@ int main()
                 }
             }
             // Handling input
+            //Sang phải - D
             if (bKey[3] == 1 && nCurrentY >= nLimit)
             {
                 rotateSFX.play();
@@ -245,14 +246,14 @@ int main()
                     nCurrentX += 2;
                 }
             }
-
+            //Sang trái - A
             if (bKey[1] == 1 && nCurrentY >= nLimit && CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX - 2, nCurrentY) == 1)
             {
                 rotateSFX.play();
                 nCurrentX -= 2;
 
             }
-
+            //Thả nhanh xuống - S
             if (bKey[2] == 1 && nCurrentY >= nLimit)
             {
                 FallSFX.play();
@@ -263,7 +264,7 @@ int main()
                 }
                 nCurrentY += i - 1;
             }
-
+            //Xoay khối
             if (bKey[0] == 1 && nCurrentY >= nLimit && bRotateHold == 1 && CheckPiece(pMatrix, nCurrentPiece, (nCurrentRotation + 1) % 4, nCurrentX, nCurrentY) == 1)
             {
                 rotateSFX.play();
@@ -327,17 +328,9 @@ int main()
                         }
                     }
 
-                    for (int j = 0; j < nScreenHeight; j++)
-                    {
-                        for (int i = 0; i < nScreenWidth; i++)
-                        {
-                            COORD cPos;
-                            cPos.X = i;
-                            cPos.Y = j;
-                            WriteConsoleOutputAttribute(hConsole, &pTmpColor[j * nScreenWidth + i], 1, cPos, &dwBytesWritten);
-                        }
-                    }
-                    WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
+
+                    WriteConsoleOutputAttribute(hConsole, pTmpColor, nScreenWidth* nScreenHeight, { 0,0 }, & dwBytesWritten);
+                    WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth* nScreenHeight, { 0,0 }, & dwBytesWritten);
                 }
             }
             // Move down
@@ -352,7 +345,7 @@ int main()
                     nLevelLimit *= 2;
                 }
 
-                // Test if piece can be moved down
+                // Check if piece can be moved down
                 if (CheckPiece(pMatrix, nCurrentPiece, nCurrentRotation, nCurrentX, nCurrentY + 1))
                 {
                     nCurrentY++;
@@ -416,7 +409,7 @@ int main()
                         nScore += 25;
                         if (!vLines.empty())
                         {
-                            nScore += (1 << vLines.size()) * 100;
+                            nScore += (1 << vLines.size()) * 100; 
                         }
 
                         // Pick new tetromino
@@ -502,17 +495,8 @@ int main()
                 vLines.clear();
             }
 
-            for (int j = 0; j < nScreenHeight; j++)
-            {
-                for (int i = 0; i < nScreenWidth; i++)
-                {
-                    COORD cPos;
-                    cPos.X = i;
-                    cPos.Y = j;
-                    WriteConsoleOutputAttribute(hConsole, &pColor[j * nScreenWidth + i], 1, cPos, &dwBytesWritten);
-                }
-            }
-            WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
+            WriteConsoleOutputAttribute(hConsole, pColor, nScreenWidth* nScreenHeight, { 0,0 }, & dwBytesWritten);
+            WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth* nScreenHeight, { 0,0 }, & dwBytesWritten);
         }
 
         // Game over
@@ -581,17 +565,8 @@ int main()
                 }
             }
 
-            for (int j = 0; j < nScreenHeight; j++)
-            {
-                for (int i = 0; i < nScreenWidth; i++)
-                {
-                    COORD cPos;
-                    cPos.X = i;
-                    cPos.Y = j;
-                    WriteConsoleOutputAttribute(hConsole, &pColor[j * nScreenWidth + i], 1, cPos, &dwBytesWritten);
-                }
-            }
-            WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
+            WriteConsoleOutputAttribute(hConsole, pColor, nScreenWidth* nScreenHeight, { 0,0 }, & dwBytesWritten);
+            WriteConsoleOutputCharacter(hConsole, pBuffer, nScreenWidth* nScreenHeight, { 0,0 }, & dwBytesWritten);
         }
     }
 
